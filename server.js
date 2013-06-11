@@ -43,6 +43,7 @@ function samuelgil_server(){
 		self.socket.sockets.socket(client.id).emit("hello", "world");
 		client.on("disconnect", self.onPlayerDisconnect);
 		client.on("sync", self.playerSync);
+		client.on("chat", self.playerChat);
 	}
 	self.addPlayer = function(){
 		self.people.push(new person());
@@ -67,6 +68,11 @@ function samuelgil_server(){
 
 		self.people[iPosInIndex].position = data.position;
 		self.people[iPosInIndex].speed = data.speed;
+
+	}
+	self.playerChat = function(data){
+
+		this.broadcast.emit("chat", {id: this.id, message: data.message});
 
 	}
 	self.tick = function(){
